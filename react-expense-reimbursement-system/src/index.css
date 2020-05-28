@@ -1,0 +1,14 @@
+.container {
+  background-color: whitesmoke;
+  min-height: 300px;
+}
+
+body {
+  background-color: grey;
+}
+
+/* Nav Bar */
+.navbar li {
+  border-bottom: indigo solid 2px;
+  list-style-type: none;
+}
