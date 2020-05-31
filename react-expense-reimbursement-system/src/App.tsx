@@ -28,12 +28,29 @@ export class App extends React.Component<any, any> {
       <Container>
         <Router>
           <NavComponent></NavComponent>
-          <Switch>
-            <Route path="/login" render={(props) => <Login updateUser={this.updateUser} {...props}/> }/>
-            <Route path="/employee" render={(props) => <Employee {...props}/> }/>
-            <Route path="/manager" render={(props) => <Manager {...props}/> }/>
-          </Switch>
-
+          <div id="div-body">
+            <Switch>
+              <Route path="/login" render={(props) => 
+                <Login 
+                  currentUserString={this.state.loggedInUser ? this.state.loggedInUser.username : ''} 
+                  updateUser={this.updateUser} 
+                  {...props}
+                />}
+              />
+              <Route path="/employee" render={(props) => 
+                <Employee 
+                  currentUser={this.state.loggedInUser}
+                  {...props}
+                />}
+              />
+              <Route path="/manager" render={(props) => 
+                <Manager 
+                  currentUser={this.state.loggedInUser}
+                  {...props}
+                />}
+              />
+            </Switch>
+          </div>
         </Router>
       </Container>
     )
