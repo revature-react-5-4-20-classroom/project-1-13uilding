@@ -1,23 +1,78 @@
 import React from 'react';
 import { Navbar, NavItem, Col } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
+import { User } from '../models/User';
+import { pathToUpperCamel } from '../utilities';
 
+interface INavComponentProps {
+  currentUser: User | null;
+}
 
+const employeeNavLinks = [
+  "home", // View info, update info
+  "submit-reimbursement", // Upload image and submit
+  "view-reimbursements", // view pending, view resolved
+  "logout",
+];
+const managerNavLinks = [
+  "home", // Manager homepage
+  "reimbursements", // Approve/deny pending reimbursements, view reimbursments
+  "logout",
+]
+const adminNavLinks = [
+  "home",
+  "employees", // view employees, change employees, 
+  "logout",
+]
+const guestLinks = [
+  "home",
+  "login",
+]
 
-
-export class NavComponent extends React.Component <any, any> {
-  //! Not sure if I need this for current page
-  // constructor(props: any) {
-  //   super(props) {
-  //     this.state = {
-
-  //     }
-  //   }
-  // }
+export class NavComponent extends React.Component <INavComponentProps, any> {
+  constructor(props: INavComponentProps) {
+    super(props);
+  }
   render() {
+    const user = this.props.currentUser;
+    var navLinks: string[] = [];
+    if (user !== null) {
+      switch (user.role.role) {
+        case "finance-manager":
+          navLinks = managerNavLinks;
+          break;
+        case "admin":
+          navLinks = adminNavLinks;
+          break;
+        default:
+          navLinks = employeeNavLinks;
+          break;
+      }
+    } else {
+      navLinks = guestLinks;
+    }
+
     return (
       <Navbar color="faded" light className="nav-bar-background">
-          <Col md="6" >
+        {navLinks.map((link: string) => {
+          return (
+          <Col 
+            md={link === "home" ? "4" : "2"} 
+            xs={link === "home" ? "" : "3"}
+          >
+            <NavItem>
+              <NavLink 
+                to={`/${link}`} 
+                className={"main-nav"}
+                activeClassName={"main-nav-active"}
+              >
+                {pathToUpperCamel(link)}
+              </NavLink>
+            </NavItem>
+          </Col>
+          )
+        })}
+          {/* <Col md="6" >
             <NavItem>
               <NavLink to="/home" className="main-nav" activeClassName="main-nav-active">ERS Home</NavLink>
             </NavItem>
@@ -37,7 +92,7 @@ export class NavComponent extends React.Component <any, any> {
             <NavItem>
               <NavLink to="/login" className="main-nav" activeClassName="main-nav-active">Login</NavLink>
             </NavItem>
-          </Col>
+          </Col> */}
       </Navbar>
     )
   }

@@ -4,8 +4,9 @@ import { User } from '../models/User';
 import { login } from '../api/ExpenseReimbursementClient';
 
 interface ILoginComponentProps {
-  updateUser: (user: User) => void;
-  currentUserString: string;
+  updateUser: (user: User | null) => void;
+  currentUser: User;
+  location: {pathname: string};
 }
 
 interface ILoginComponentState {
@@ -58,10 +59,17 @@ export class Login extends React.Component <ILoginComponentProps, ILoginComponen
     }
   }
 
+  //! Removed functionality
+  // componentDidMount() {
+  //   if (this.props.location.pathname === "logout") {
+  //     this.props.updateUser(null);
+  //   }
+  // }
+
   render() {
     return (
       <div className="myPage" id="loginPage">
-        <h1>{this.props.currentUserString ? `Logged in as ${this.props.currentUserString}` : "Login"}</h1>
+        <h1>{this.props.currentUser ? `Logged in as ${this.props.currentUser.username}` : "Login"}</h1>
         <Form onSubmit={this.attemptLogin}>
           <FormGroup row>
             <Label for="username" sm={2}>Username</Label>

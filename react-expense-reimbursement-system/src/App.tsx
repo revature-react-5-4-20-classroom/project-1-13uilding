@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from 'reactstrap';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 // My files
 import { NavComponent } from './components/NavComponent';
@@ -17,7 +17,7 @@ export class App extends React.Component<any, any> {
     }
   }
 
-  updateUser = (user: User) => {
+  updateUser = (user: User | null) => {
     this.setState({
       loggedInUser: user,
     })
@@ -27,12 +27,12 @@ export class App extends React.Component<any, any> {
     return (
       <Container>
         <Router>
-          <NavComponent></NavComponent>
+          <NavComponent currentUser={this.state.loggedInUser} />
           <div id="div-body">
             <Switch>
               <Route path="/login" render={(props) => 
                 <Login 
-                  currentUserString={this.state.loggedInUser ? this.state.loggedInUser.username : ''} 
+                  currentUser={this.state.loggedInUser ? this.state.loggedInUser : null} 
                   updateUser={this.updateUser} 
                   {...props}
                 />}
@@ -48,6 +48,14 @@ export class App extends React.Component<any, any> {
                   currentUser={this.state.loggedInUser}
                   {...props}
                 />}
+              />
+              <Route path="/logout" render={(props) => {
+                {this.updateUser(null)}
+                return (
+                <Redirect 
+                  to="/login"
+                  {...props}
+                />)}}
               />
             </Switch>
           </div>
