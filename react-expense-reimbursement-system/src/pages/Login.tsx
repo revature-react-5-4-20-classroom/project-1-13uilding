@@ -4,11 +4,13 @@ import { User } from '../models/User';
 import { login } from '../api/ExpenseReimbursementClient';
 import robin from '../images/robin.jpg';
 import { Image } from 'react-bootstrap';
+import { Redirect } from 'react-router';
 
 interface ILoginComponentProps {
   updateUser: (user: User | null) => void;
   currentUser: User | null;
   location: {pathname: string};
+  history: {push: any};
 }
 
 interface ILoginComponentState {
@@ -52,12 +54,20 @@ export class Login extends React.Component <ILoginComponentProps, ILoginComponen
         username: '',
         password: ''
       })
+      this.props.history.push('/home')
     } catch (error) {
       this.setState({ 
         password: '', 
         errorMessage: error.message, 
         isError: true 
       })
+    }
+
+  }
+
+  componentDidMount() {
+    if (this.props.currentUser !== null) {
+      this.props.updateUser(null);
     }
   }
 
@@ -67,7 +77,6 @@ export class Login extends React.Component <ILoginComponentProps, ILoginComponen
   //     this.props.updateUser(null);
   //   }
   // }
-
   render() {
     return (
       <div className="myPage" id="loginPage">
@@ -78,7 +87,7 @@ export class Login extends React.Component <ILoginComponentProps, ILoginComponen
           </Col>
           <Col xs="8">
             <h3>
-              Logged in as {this.props.currentUser ? this.props.currentUser.username : "guest"}
+              {this.props.currentUser ? 'Logged in as ' + this.props.currentUser.username : "Login"}
             </h3>
           </Col>
         </Row>

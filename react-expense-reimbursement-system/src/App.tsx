@@ -26,6 +26,8 @@ export class App extends React.Component<any, any> {
       loggedInUser: user,
     })
   }
+
+
   
   render() {
     return (
@@ -97,13 +99,12 @@ export class App extends React.Component<any, any> {
               {/* Logout  */}
               {/* Need to refactor https://serverless-stack.com/chapters/redirect-on-login-and-logout.html */}
               <Route path="/logout" render={(props) => {
-                {this.updateUser(null)}
                 return (
-                <Redirect 
-                  to="/login"
-                  {...props}
-                />)}}
-              />
+                    <Redirect 
+                      to="/login"
+                      {...props}
+                    />)
+              }}/>
             </Switch>
           </div>
         </Router>
