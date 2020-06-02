@@ -4,7 +4,9 @@ import React from 'react';
 export class ViewReimbursement extends React.Component <any, any> {
   render() {
     return (
-      <h1>ViewReimbursement</h1>
+      <h1>ViewReimbursement 
+      - An Employee can view their pending reimbursement requests
+      - An Employee can view their resolved reimbursement requests</h1>
     )
   }
 }

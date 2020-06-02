@@ -4,7 +4,8 @@ import React from 'react';
 export class SubmitReimbursement extends React.Component <any, any> {
   render() {
     return (
-      <h1>SubmitReimbursement</h1>
+      <h1>SubmitReimbursement - An Employee can submit a reimbursement request - EMPLOYEE PAGE: An Employee can upload an image of his/her receipt as part of the reimbursement request (optional)
+      </h1>
     )
   }
 }

@@ -7,3 +7,12 @@ export class FailedLoginError extends Error {
     this.username = username;
   }
 }
+
+export class FailedUserUpdateError extends Error {
+  username: string | undefined;
+
+  constructor(message?:string, username?:string) {
+    super(message);
+    this.username = username;
+  }
+}

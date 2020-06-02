@@ -1,11 +1,13 @@
 import React from 'react';
-import { Form, FormGroup, Label, Col, Input, Button, Toast, ToastHeader, ToastBody } from 'reactstrap';
+import { Form, FormGroup, Label, Col, Input, Button, Toast, ToastHeader, ToastBody, Row } from 'reactstrap';
 import { User } from '../models/User';
 import { login } from '../api/ExpenseReimbursementClient';
+import robin from '../images/robin.jpg';
+import { Image } from 'react-bootstrap';
 
 interface ILoginComponentProps {
   updateUser: (user: User | null) => void;
-  currentUser: User;
+  currentUser: User | null;
   location: {pathname: string};
 }
 
@@ -69,7 +71,17 @@ export class Login extends React.Component <ILoginComponentProps, ILoginComponen
   render() {
     return (
       <div className="myPage" id="loginPage">
-        <h1>{this.props.currentUser ? `Logged in as ${this.props.currentUser.username}` : "Login"}</h1>
+        <h1>Login</h1>
+        <Row>
+          <Col xs="2">
+            <Image src={robin} thumbnail roundedCircle/>
+          </Col>
+          <Col xs="8">
+            <h3>
+              Logged in as {this.props.currentUser ? this.props.currentUser.username : "guest"}
+            </h3>
+          </Col>
+        </Row>
         <Form onSubmit={this.attemptLogin}>
           <FormGroup row>
             <Label for="username" sm={2}>Username</Label>

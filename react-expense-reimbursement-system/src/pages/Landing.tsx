@@ -1,10 +1,17 @@
-import React from 'react';
+import React from "react";
+import { Image } from "react-bootstrap";
+import example from "../images/landing_page.jpg";
 // This is the admin homepage only accessable to admin
 
 export class Landing extends React.Component <any, any> {
   render() {
     return (
-      <h1>Landing</h1>
+      <div className="myPage" id="landingPage">
+        <h1>Example Landing Page Bruh</h1>
+        <Image src={`${example}`} fluid/>
+
+      </div>
+      
     )
   }
 }

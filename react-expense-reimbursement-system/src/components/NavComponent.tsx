@@ -9,18 +9,21 @@ interface INavComponentProps {
 }
 
 const employeeNavLinks = [
-  "home", // View info, update info
-  "submit-reimbursement", // Upload image and submit
-  "view-reimbursements", // view pending, view resolved
+  "home",
+  "employee", // View info, update info
+  "submit", // Upload image and submit
+  "view", // view pending, view resolved
   "logout",
 ];
 const managerNavLinks = [
-  "home", // Manager homepage
+  "home",
+  "manager", // Manager homepage
   "reimbursements", // Approve/deny pending reimbursements, view reimbursments
   "logout",
 ]
 const adminNavLinks = [
   "home",
+  "admin",
   "employees", // view employees, change employees, 
   "logout",
 ]
@@ -54,9 +57,10 @@ export class NavComponent extends React.Component <INavComponentProps, any> {
 
     return (
       <Navbar color="faded" light className="nav-bar-background">
-        {navLinks.map((link: string) => {
+        {navLinks.map((link: string, index: number) => {
           return (
           <Col 
+            key={index}
             md={link === "home" ? "4" : "2"} 
             xs={link === "home" ? "" : "3"}
           >
