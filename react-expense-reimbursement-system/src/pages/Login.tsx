@@ -44,6 +44,23 @@ export class Login extends React.Component <ILoginComponentProps, ILoginComponen
       errorMessage: '',
     })
   }
+
+  pushSwitch = (role: string | null): string => {
+    let result: string = "/home";
+    if (role === null) return result;
+    switch (role) {
+      case "finance-manager":
+        result = "/manager";
+        break;
+      case "admin":
+        result = "/admin";
+        break;
+      default:
+        result = "/employee";
+        break;
+    }
+    return result;
+  }
   
   attemptLogin = async (e: any) => {
     e.preventDefault();
@@ -54,7 +71,7 @@ export class Login extends React.Component <ILoginComponentProps, ILoginComponen
         username: '',
         password: ''
       })
-      this.props.history.push('/home')
+      this.props.history.push(this.pushSwitch(this.props.currentUser ? this.props.currentUser.role.role : "/home"))
     } catch (error) {
       this.setState({ 
         password: '', 

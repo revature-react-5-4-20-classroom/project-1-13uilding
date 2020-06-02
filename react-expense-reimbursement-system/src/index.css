@@ -56,3 +56,13 @@ body {
   font-weight: bold;
 }
 
+/* employee page */
+.user-info-wrapper {
+  border: solid var(--orange-color) 5px;
+  padding: 0 10px;
+  border-radius: 2%;
+}
+
+.user-info-row-1 {
+  background-color: var(--orange-color)
+}

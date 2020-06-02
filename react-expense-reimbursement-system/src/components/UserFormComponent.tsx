@@ -1,7 +1,7 @@
 import React from 'react';
 import { User } from '../models/User';
 import { Form, FormGroup, Label, Col, Input, Button, Toast, ToastHeader, ToastBody } from 'reactstrap';
-import { login, updateEmployee } from '../api/ExpenseReimbursementClient';
+import { updateEmployee } from '../api/ExpenseReimbursementClient';
 
 interface IUserFormComponentProps {
   currentUser: User;
@@ -78,25 +78,25 @@ export class UserFormComponent extends React.Component <IUserFormComponentProps,
         <FormGroup row>
           <Label for="firstname" md={2}>First Name:</Label>
           <Col md={4}>
-            <Input onChange={this.setInputStates} value={this.state.firstname} type="text" name="firstname" id="firstname" placeholder="your first name" />
+            <Input onChange={this.setInputStates} value={this.state.firstname} type="text" name="firstname" id="firstname" placeholder="new first name" />
           </Col>
         </FormGroup>
         <FormGroup row>
           <Label for="lastname" md={2}>Last Name:</Label>
           <Col md={4}>
-            <Input onChange={this.setInputStates} value={this.state.lastname} type="text" name="lastname" id="lastname" placeholder="your last name" />
+            <Input onChange={this.setInputStates} value={this.state.lastname} type="text" name="lastname" id="lastname" placeholder="new last name" />
           </Col>
         </FormGroup>
         <FormGroup row>
           <Label for="email" md={2}>Email:</Label>
           <Col md={6}>
-            <Input onChange={this.setInputStates} value={this.state.email} type="email" name="email" id="email" placeholder="your email" />
+            <Input onChange={this.setInputStates} value={this.state.email} type="email" name="email" id="email" placeholder="new email" />
           </Col>
         </FormGroup>
         <FormGroup row>
           <Label for="password" md={2}>Password:</Label>
           <Col md={6}>
-            <Input onChange={this.setInputStates} value={this.state.password} type="password" name="password" id="password" placeholder="your password" />
+            <Input onChange={this.setInputStates} value={this.state.password} type="password" name="password" id="password" placeholder="new password" />
           </Col>
         </FormGroup>
         <Button color="primary">Submit</Button>
