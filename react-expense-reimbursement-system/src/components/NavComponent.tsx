@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar, NavItem, Col } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { User } from '../models/User';
-import { pathToUpperCamel } from '../utilities';
+import { pathToUpperCamel, pathToShortName } from '../utilities';
 
 interface INavComponentProps {
   currentUser: User | null;
@@ -11,8 +11,8 @@ interface INavComponentProps {
 const employeeNavLinks = [
   "home",
   "employee", // View info, update info
-  "submit", // Upload image and submit
-  "view", // view pending, view resolved
+  "employee/submit-reimbursement", // Upload image and submit
+  "employee/view-reimbursement", // view pending, view resolved
   "logout",
 ];
 const managerNavLinks = [
@@ -70,7 +70,7 @@ export class NavComponent extends React.Component <INavComponentProps, any> {
                 className={"main-nav"}
                 activeClassName={"main-nav-active"}
               >
-                {pathToUpperCamel(link)}
+                {link.includes("-reim") ? pathToShortName(link) : pathToUpperCamel(link)}
               </NavLink>
             </NavItem>
           </Col>

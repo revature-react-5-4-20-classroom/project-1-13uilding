@@ -30,7 +30,7 @@ export class UserInfoComponent extends React.Component <IUserInfoComponentProps,
             Username
           </Col>
           <Col>
-            {pathToUpperCamel(username)}
+            {username}
           </Col>
         </Row>
         <Row className="user-info-row-1">
@@ -54,7 +54,7 @@ export class UserInfoComponent extends React.Component <IUserInfoComponentProps,
             Email
           </Col>
           <Col>
-            {pathToUpperCamel(email)}
+            {email}
           </Col>
         </Row>
         <Row className="user-info-row-2">

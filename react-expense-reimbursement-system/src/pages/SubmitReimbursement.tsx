@@ -1,11 +1,29 @@
 import React from 'react';
+import { ReimbursementFormComponent } from '../components/ReimbursementFormComponent';
+import { User } from '../models/User';
 // This is the admin homepage only accessable to admin
 
-export class SubmitReimbursement extends React.Component <any, any> {
+
+interface ISubmitReimbursementProps {
+  currentUser: User;
+}
+
+interface ISubmitReimbursementState {
+  test: string;
+}
+
+export class SubmitReimbursement extends React.Component <ISubmitReimbursementProps, ISubmitReimbursementState> {
+  constructor(props: ISubmitReimbursementProps) {
+    super(props);
+    this.state = {
+      test: 'hi'
+    }
+  }
   render() {
     return (
-      <h1>SubmitReimbursement - An Employee can submit a reimbursement request - EMPLOYEE PAGE: An Employee can upload an image of his/her receipt as part of the reimbursement request (optional)
-      </h1>
+      <div className="myPage" id="submitreimbursementPage">
+        <ReimbursementFormComponent currentUser={this.props.currentUser}></ReimbursementFormComponent>
+      </div>
     )
   }
 }

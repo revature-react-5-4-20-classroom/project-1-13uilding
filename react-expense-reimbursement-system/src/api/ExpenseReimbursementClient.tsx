@@ -40,3 +40,19 @@ export async function updateEmployee(user: User): Promise<User> {
     }
   }
 }
+
+export async function submitReimbursement(reimbursement: Reimbursement): Promise<Reimbursement> {
+  try {
+    const res = await ExpenseReimbursementClient.post('/reimbursements', reimbursement);
+    const { reimbursementid, author, amount, datesubmitted, dateresolved, description, resolver, status, type } = res.data;
+    return new Reimbursement( reimbursementid, author, amount, datesubmitted, dateresolved, description, resolver, status, type )
+  } catch (e) {
+    console.log(e);
+    console.log(e.response);
+    if (e.response.status === 401) {
+      throw new FailedUserUpdateError('Failed to submit reimbursement');
+    } else {
+      throw e;
+    }
+  }
+}

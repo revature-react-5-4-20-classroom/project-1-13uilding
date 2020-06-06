@@ -94,6 +94,7 @@ export class UserFormComponent extends React.Component <IUserFormComponentProps,
           </Col>
         </FormGroup>
         <FormGroup row>
+          {/* CHANGE THIS METHINKS */}
           <Label for="password" md={2}>Password:</Label>
           <Col md={6}>
             <Input onChange={this.setInputStates} value={this.state.password} type="password" name="password" id="password" placeholder="new password" />

@@ -16,3 +16,9 @@ export class FailedUserUpdateError extends Error {
     this.username = username;
   }
 }
+
+export class FailedSubmitReimbursementError extends Error {
+  constructor(message?: string) {
+    super(message);
+  }
+}

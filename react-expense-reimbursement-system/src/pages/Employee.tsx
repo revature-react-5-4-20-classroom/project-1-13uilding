@@ -1,7 +1,6 @@
 import React from 'react';
 import { User } from '../models/User';
 import { Row, Col, Button, Badge } from 'reactstrap';
-import dog from '../images/dog.jpg';
 import jaguar from '../images/jaguar.jpg';
 import { Image } from 'react-bootstrap';
 import { UserFormComponent } from '../components/UserFormComponent';
