@@ -11,8 +11,8 @@ interface INavComponentProps {
 const employeeNavLinks = [
   "home",
   "employee", // View info, update info
-  "employee/submit-reimbursement", // Upload image and submit
-  "employee/view-reimbursement", // view pending, view resolved
+  "submit-reimbursement", // Upload image and submit
+  "view-reimbursement", // view pending, view resolved
   "logout",
 ];
 const managerNavLinks = [

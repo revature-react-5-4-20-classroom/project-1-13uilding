@@ -6,13 +6,13 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import { NavComponent } from './components/NavComponent';
 import { Login } from './pages/Login';
 import { Employee } from './pages/Employee';
-import { Manager } from './pages/Manager';
 import { User } from './models/User';
-import { Admin } from './pages/Admin';
 import { Landing } from './pages/Landing';
 import { SubmitReimbursement } from './pages/SubmitReimbursement';
 import { ViewReimbursement } from './pages/ViewReimbursement';
 import { login } from './api/ExpenseReimbursementClient';
+import { Reimbursements } from './pages/Reimbursements';
+import { Employees } from './pages/Employees';
 
 export class App extends React.Component<any, any> {
   constructor(props: any) {
@@ -64,6 +64,7 @@ export class App extends React.Component<any, any> {
 
   componentDidMount() {
     this.attemptLogin("longknee", "lassword");
+    // this.attemptLogin("bonnie", "bassword");
   }
 
   //! Temporary ===================================================
@@ -91,52 +92,54 @@ export class App extends React.Component<any, any> {
               />
               {/* admin  */}
               <Route path="/admin" render={(props) => 
-                <Admin 
+                <Employee 
+                  currentUser={this.state.loggedInUser}
+                  updateUser={this.updateUser} 
+                  page={'adminPage'}
+                  {...props}
+                />}
+              />
+              <Route path="/employees" render={(props) => 
+                <Employees 
                   currentUser={this.state.loggedInUser}
                   {...props}
                 />}
               />
-              <Route path="/admin/employees" render={(props) => 
-                <Admin 
+              {/* Employee  */}
+              <Route path="/employee/submit-reimbursement" render={(props) => 
+                <SubmitReimbursement 
                   currentUser={this.state.loggedInUser}
                   {...props}
                 />}
               />
-              <Switch>
+              <Route path="/employee/view-reimbursement" render={(props) => 
+                <ViewReimbursement 
+                  currentUser={this.state.loggedInUser}
+                  {...props}
+                />}
+              />
 
-
-                {/* Employee  */}
-                <Route path="/employee/submit-reimbursement" render={(props) => 
-                  <SubmitReimbursement 
-                    currentUser={this.state.loggedInUser}
-                    {...props}
-                  />}
-                />
-                <Route path="/employee/view-reimbursement" render={(props) => 
-                  <ViewReimbursement 
-                    currentUser={this.state.loggedInUser}
-                    {...props}
-                  />}
-                />
-
-                <Route path="/employee" render={(props) => 
-                  <Employee 
-                    currentUser={this.state.loggedInUser}
-                    updateUser={this.updateUser} 
-                    {...props}
-                  />}
-                />
-              </Switch>
+              <Route path="/employee" render={(props) => 
+                <Employee 
+                  currentUser={this.state.loggedInUser}
+                  updateUser={this.updateUser} 
+                  page={'employeePage'}
+                  {...props}
+                />}
+              />
               {/* Manager  */}
               <Route path="/manager" render={(props) => 
-                <Manager 
+                <Employee 
                   currentUser={this.state.loggedInUser}
+                  updateUser={this.updateUser}
+                  page={'managerPage'}
                   {...props}
                 />}
               />
-              <Route path="/manager/reimbursements" render={(props) => 
-                <Manager 
+              <Route path="/reimbursements" render={(props) => 
+                <Reimbursements 
                   currentUser={this.state.loggedInUser}
+                  updateUser={this.updateUser} 
                   {...props}
                 />}
               />

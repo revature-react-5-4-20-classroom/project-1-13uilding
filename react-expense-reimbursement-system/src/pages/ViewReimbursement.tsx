@@ -68,7 +68,7 @@ export class ViewReimbursement extends React.Component <IViewReimbursementProps,
         {/* {this.state.reimbursements.filter(reimbursement => reimbursement.status === 1)} */}
         <Row>
           {displayReimbursements.map((reimbursement: Reimbursement) => {
-            return (<Col md={6}>
+            return (<Col key={reimbursement.reimbursementid} md={6}>
               <ReimbursementCardComponent reimbursement={reimbursement}></ReimbursementCardComponent>
             </Col>)
           })}

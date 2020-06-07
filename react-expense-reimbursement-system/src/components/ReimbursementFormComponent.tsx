@@ -60,6 +60,7 @@ export class ReimbursementFormComponent extends React.Component <IReimbursementF
       const submittedReimbursement: Reimbursement = await submitReimbursement(reimbursement);
       console.log(submittedReimbursement);
       //TODO Make a message it was submitted
+      // this.props.addedReimbursement()
       // Clear fields
       this.setState({
         amount: '',
