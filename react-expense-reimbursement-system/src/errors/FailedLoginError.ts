@@ -22,3 +22,9 @@ export class FailedSubmitReimbursementError extends Error {
     super(message);
   }
 }
+
+export class FailedGetReimbursementsError extends Error {
+  constructor(message?: string) {
+    super(message);
+  }
+}

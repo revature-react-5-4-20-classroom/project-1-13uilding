@@ -21,9 +21,10 @@ export class SubmitReimbursement extends React.Component <ISubmitReimbursementPr
   }
   render() {
     return (
-      <div className="myPage" id="submitreimbursementPage">
+      <div className="myPage" id="submitReimbursementPage">
         <ReimbursementFormComponent currentUser={this.props.currentUser}></ReimbursementFormComponent>
       </div>
+      // Add alert here and pass down submit reimbursement?
     )
   }
 }

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { User } from '../models/User';
 import { Reimbursement } from '../models/Reimbursement';
 import { Role } from '../models/Role';
-import { FailedLoginError, FailedUserUpdateError } from '../errors/FailedLoginError';
+import { FailedLoginError, FailedUserUpdateError, FailedGetReimbursementsError } from '../errors/FailedLoginError';
 
 const ExpenseReimbursementClient = axios.create({
   baseURL: 'http://3.16.109.242:3000',
@@ -51,6 +51,24 @@ export async function submitReimbursement(reimbursement: Reimbursement): Promise
     console.log(e.response);
     if (e.response.status === 401) {
       throw new FailedUserUpdateError('Failed to submit reimbursement');
+    } else {
+      throw e;
+    }
+  }
+}
+
+export async function getReimbursement(authorId: number): Promise<Reimbursement[]> {
+  try {
+    const res = await ExpenseReimbursementClient.get(`/reimbursements/author/${authorId}`);
+    return res.data.map((reimbursement: Reimbursement) => {
+      const { reimbursementid, author, amount, datesubmitted, dateresolved, description, resolver, status, type } = reimbursement;
+      return new Reimbursement( reimbursementid, author, amount, datesubmitted, dateresolved, description, resolver, status, type )
+    })
+  } catch (e) {
+    console.log(e);
+    console.log(e.response);
+    if (e.response.status === 401) {
+      throw new FailedGetReimbursementsError('Failed to get reimbursements');
     } else {
       throw e;
     }

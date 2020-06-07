@@ -66,3 +66,18 @@ body {
 .user-info-row-1 {
   background-color: var(--orange-color)
 }
+
+
+/* Reimbursement Card */
+.reimbursementCardOutline.pending {
+  border: var(--orange-color) solid 3px
+}
+
+.reimbursementCardOutline.approved {
+  border: var(--purple-color) solid 3px
+}
+
+.reimbursementCardOutline.denied {
+  border: var(--pink-color) solid 3px
+}
+
