@@ -63,7 +63,7 @@ export class App extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    this.attemptLogin("bonnie", "bassword");
+    this.attemptLogin("longknee", "lassword");
   }
 
   //! Temporary ===================================================

@@ -2,7 +2,7 @@ import React from 'react';
 import { ReimbursementCardComponent } from '../components/ReimbursementCardComponent';
 import { Reimbursement } from '../models/Reimbursement';
 import { User } from '../models/User';
-import { Button } from 'reactstrap';
+import { Button, Row, Col } from 'reactstrap';
 import { getReimbursement } from '../api/ExpenseReimbursementClient';
 // This is the admin homepage only accessable to admin
 
@@ -51,19 +51,28 @@ export class ViewReimbursement extends React.Component <IViewReimbursementProps,
     const displayReimbursements = this.state.pending ? pendingReimbursements : resolvedReimbursements;
     return (
       <div className="myPage" id="viewReimbursementPage">
-        <Button 
-          color={`${this.state.pending ? "secondary" : "primary"}`}
-          onClick={() => this.setState({pending: !this.state.pending})}
-        >
-          {`${this.state.pending ? "Pending" : "Resolved"}`}
-        </Button>
+        <Row>
+          <Col>
+            <h1>{`${this.state.pending ? "Pending" : "Resolved"}`}</h1>
+          </Col>
+          <Col xs={2}>
+            <Button 
+              color={`${this.state.pending ? "primary" : "secondary"}`}
+              onClick={() => this.setState({pending: !this.state.pending})}
+            >
+              {`${this.state.pending ? "Resolved" : "Pending"}`}
+            </Button>          
+          </Col>
+        </Row>
+
         {/* {this.state.reimbursements.filter(reimbursement => reimbursement.status === 1)} */}
-        {displayReimbursements.map((reimbursement: Reimbursement) => {
-          return <ReimbursementCardComponent reimbursement={reimbursement}></ReimbursementCardComponent>
-        })}
-        <h1>ViewReimbursement 
-        - An Employee can view their pending reimbursement requests
-        - An Employee can view their resolved reimbursement requests</h1>
+        <Row>
+          {displayReimbursements.map((reimbursement: Reimbursement) => {
+            return (<Col md={6}>
+              <ReimbursementCardComponent reimbursement={reimbursement}></ReimbursementCardComponent>
+            </Col>)
+          })}
+        </Row>
       </div>
     )
   }
