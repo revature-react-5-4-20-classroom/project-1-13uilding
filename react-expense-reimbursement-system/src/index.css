@@ -108,3 +108,6 @@ body {
   border: var(--pink-color) solid 3px
 }
 
+.reimbursementCardColumn {
+  margin: 5px 0;
+}

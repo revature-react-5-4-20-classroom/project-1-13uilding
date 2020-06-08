@@ -106,13 +106,13 @@ export class App extends React.Component<any, any> {
                 />}
               />
               {/* Employee  */}
-              <Route path="/employee/submit-reimbursement" render={(props) => 
+              <Route path="submit-reimbursement" render={(props) => 
                 <SubmitReimbursement 
                   currentUser={this.state.loggedInUser}
                   {...props}
                 />}
               />
-              <Route path="/employee/view-reimbursement" render={(props) => 
+              <Route path="view-reimbursement" render={(props) => 
                 <ViewReimbursement 
                   currentUser={this.state.loggedInUser}
                   {...props}
@@ -139,7 +139,6 @@ export class App extends React.Component<any, any> {
               <Route path="/reimbursements" render={(props) => 
                 <Reimbursements 
                   currentUser={this.state.loggedInUser}
-                  updateUser={this.updateUser} 
                   {...props}
                 />}
               />

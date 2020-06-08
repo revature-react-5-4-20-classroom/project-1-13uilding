@@ -50,14 +50,21 @@ export class Employees extends React.Component <IEmployeesProps, IEmployeesState
             <h1>Employees</h1>
           </Col>
         </Row>
-
-        {/* {this.state.reimbursements.filter(reimbursement => reimbursement.status === 1)} */}
         <Row>
-          {this.state.users.map((user: User, index) => {
-            return (<Col key={user.userid} md={6}>
-              <UserInfoComponent user={user} index={index % 2}></UserInfoComponent>
-            </Col>)
-          })}
+          {/* We sort the users by user id. */}
+          {this.state.users
+            .sort((user1, user2) => {
+              if (user1.userid > user2.userid) return 1;
+              if (user1.userid < user2.userid) return -1;
+              return 0;
+            }).map((user: User, index) => {
+              return (
+                <Col key={user.userid} md={6}>
+                  <UserInfoComponent user={user} index={index % 2}></UserInfoComponent>
+                </Col>
+              )
+            })
+          }
         </Row>
       </div>
     )

@@ -57,9 +57,13 @@ export async function submitReimbursement(reimbursement: Reimbursement): Promise
   }
 }
 
-export async function getReimbursement(authorId: number): Promise<Reimbursement[]> {
+export async function getReimbursements(authorId: number, status?: number): Promise<Reimbursement[]> {
   try {
-    const res = await ExpenseReimbursementClient.get(`/reimbursements/author/${authorId}`);
+    let path = `/reimbursements/status/${status}`;
+    if (authorId > 0) path = `/reimbursements/author/${authorId}`;
+    console.log(path);
+    const res = await ExpenseReimbursementClient.get(path);
+    console.log(res.data);
     return res.data.map((reimbursement: Reimbursement) => {
       const { reimbursementid, author, amount, datesubmitted, dateresolved, description, resolver, status, type } = reimbursement;
       return new Reimbursement( reimbursementid, author, amount, datesubmitted, dateresolved, description, resolver, status, type )
