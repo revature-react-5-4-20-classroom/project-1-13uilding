@@ -74,3 +74,21 @@ export async function getReimbursement(authorId: number): Promise<Reimbursement[
     }
   }
 }
+
+export async function getUsers(): Promise<User[]> {
+  try {
+    const res = await ExpenseReimbursementClient.get('/users');
+    return res.data.map((user: User) => {
+      const { userid, username, password, firstname, lastname, email, role } = user;
+      return new User(userid, username, password, firstname, lastname, email, role);
+    })
+  } catch (e) {
+    console.log(e);
+    console.log(e.response);
+    if (e.response.status === 401) {
+      throw new FailedGetReimbursementsError('Failed to get reimbursements');
+    } else {
+      throw e;
+    }    
+  }
+}

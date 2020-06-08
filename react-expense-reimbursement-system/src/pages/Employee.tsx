@@ -44,7 +44,7 @@ export class Employee extends React.Component <IEmployeeProps, IEmployeeState> {
                 <Button onClick={(e) => console.log(e.target)} color="primary">Change Image</Button>
               </Col>
               <Col md="8">
-                <UserInfoComponent user={this.props.currentUser}/>
+                <UserInfoComponent index={1} user={this.props.currentUser}/>
               </Col>
 {/* - LATER: An Employee receives an email when one of their reimbursement requests is resolved (optional) */}
             </Row>

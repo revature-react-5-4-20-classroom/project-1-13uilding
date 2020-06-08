@@ -9,20 +9,18 @@ interface INavComponentProps {
 }
 
 const employeeNavLinks = [
-  "home",
   "employee", // View info, update info
   "submit-reimbursement", // Upload image and submit
   "view-reimbursement", // view pending, view resolved
   "logout",
 ];
 const managerNavLinks = [
-  "home",
   "manager", // Manager homepage
   "reimbursements", // Approve/deny pending reimbursements, view reimbursments
+  "employees",
   "logout",
 ]
 const adminNavLinks = [
-  "home",
   "admin",
   "employees", // view employees, change employees, 
   "logout",
@@ -61,10 +59,11 @@ export class NavComponent extends React.Component <INavComponentProps, any> {
           return (
           <Col 
             key={index}
-            md={link === "home" ? "4" : "2"} 
-            xs={link === "home" ? "" : "3"}
+            md={3} 
+            xs={link === 'logout' ? 12 : 4}
+            // xs={link === "employee" || link === "manager" || link === "admin" ? "" : "3"}
           >
-            <NavItem>
+            <NavItem id={link === 'logout' ? 'logout' : ''}>
               <NavLink 
                 to={`/${link}`} 
                 className={"main-nav"}

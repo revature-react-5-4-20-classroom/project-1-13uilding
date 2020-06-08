@@ -23,10 +23,20 @@ body {
 /* Nav Bar */
 .navbar li {
   list-style-type: none;
+  word-break: break-all;
+  text-align: center;
+}
+#logout {
+  text-align: right;
 }
 
 .nav-bar-background {
   background-color: var(--orange-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: flex-end;
+
 }
 
 
@@ -58,13 +68,30 @@ body {
 
 /* employee page */
 .user-info-wrapper {
-  border: solid var(--orange-color) 5px;
   padding: 0 10px;
   border-radius: 2%;
+  margin: 5px 0;
+  word-wrap: break-word;
+}
+.user-info-wrapper.variant-0 {
+  border: solid var(--pink-color) 5px;
+}
+.user-info-wrapper.variant-1 {
+  border: solid var(--orange-color) 5px;
+}
+.user-info-wrapper.variant-2 {
+  border: solid var(--purple-color) 5px;
 }
 
+
+.user-info-row-0 {
+  background-color: var(--pink-color)
+}
 .user-info-row-1 {
   background-color: var(--orange-color)
+}
+.user-info-row-2 {
+  background-color: var(--purple-color)
 }
 
 

@@ -5,6 +5,7 @@ import { pathToUpperCamel } from '../utilities';
 
 interface IUserInfoComponentProps {
   user: User;
+  index: number;
 }
 
 export class UserInfoComponent extends React.Component <IUserInfoComponentProps, any> {
@@ -14,10 +15,10 @@ export class UserInfoComponent extends React.Component <IUserInfoComponentProps,
   
   render() {
     let { userid, username, password, firstname, lastname, email, role } = this.props.user;
-
+    let colorClass = (this.props.index === 0) ? "user-info-row-0" : "user-info-row-1";
     return (
-      <div className="user-info-wrapper">
-        <Row className="user-info-row-1">
+      <div className={`user-info-wrapper variant-${this.props.index}`}>
+        <Row className={colorClass}>
           <Col>
             User Id
           </Col>
@@ -25,7 +26,7 @@ export class UserInfoComponent extends React.Component <IUserInfoComponentProps,
             {userid}
           </Col>
         </Row>
-        <Row className="user-info-row-2">
+        <Row >
           <Col>
             Username
           </Col>
@@ -33,7 +34,7 @@ export class UserInfoComponent extends React.Component <IUserInfoComponentProps,
             {username}
           </Col>
         </Row>
-        <Row className="user-info-row-1">
+        <Row className={colorClass}>
           <Col>
             First Name
           </Col>
@@ -41,7 +42,7 @@ export class UserInfoComponent extends React.Component <IUserInfoComponentProps,
             {pathToUpperCamel(firstname)}
           </Col>
         </Row>
-        <Row className="user-info-row-2">
+        <Row >
           <Col>
             Last Name
           </Col>
@@ -49,7 +50,7 @@ export class UserInfoComponent extends React.Component <IUserInfoComponentProps,
             {pathToUpperCamel(lastname)}
           </Col>
         </Row>
-        <Row className="user-info-row-1">
+        <Row className={colorClass}>
           <Col>
             Email
           </Col>
@@ -57,7 +58,7 @@ export class UserInfoComponent extends React.Component <IUserInfoComponentProps,
             {email}
           </Col>
         </Row>
-        <Row className="user-info-row-2">
+        <Row >
           <Col>
             Role
           </Col>
