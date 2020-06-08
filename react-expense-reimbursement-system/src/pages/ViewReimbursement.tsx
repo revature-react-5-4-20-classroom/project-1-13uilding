@@ -9,6 +9,7 @@ import { getReimbursements, getFinanceManagers } from '../api/ExpenseReimburseme
 interface IViewReimbursementProps {
   // Add null later
   currentUser: User | null;
+  reload?: boolean;
 }
 interface IViewReimbursementState {
   pending: boolean;
@@ -54,6 +55,7 @@ export class ViewReimbursement extends React.Component <IViewReimbursementProps,
     const displayReimbursements = this.state.pending ? pendingReimbursements : resolvedReimbursements;
     return (
       <div className="myPage" id="viewReimbursementPage">
+        {this.props.reload ? <></> : ''}
         <Row>
           <Col>
             <h1>{`${this.state.pending ? "Pending" : "Resolved"}`}</h1>

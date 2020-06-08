@@ -30,43 +30,43 @@ export class App extends React.Component<any, any> {
 
   //! Temporary ======================================================
 
-  attemptLogin = async (username: string, password: string) => {
-    try {
-      const loggedInUser: User = await login(username, password); 
-      this.updateUser(loggedInUser);
-      // this.setState(loggedInUser)
-      this.pushSwitch(this.props.currentUser ? this.props.currentUser.role.role : "/home");
-    } catch (error) {
-      this.setState({ 
-        errorMessage: error.message, 
-        isError: true 
-      })
-    }
+  // attemptLogin = async (username: string, password: string) => {
+  //   try {
+  //     const loggedInUser: User = await login(username, password); 
+  //     this.updateUser(loggedInUser);
+  //     // this.setState(loggedInUser)
+  //     this.pushSwitch(this.props.currentUser ? this.props.currentUser.role.role : "/home");
+  //   } catch (error) {
+  //     this.setState({ 
+  //       errorMessage: error.message, 
+  //       isError: true 
+  //     })
+  //   }
 
-  }
+  // }
 
-  pushSwitch = (role: string | null): string => {
-    let result: string = "/home";
-    if (role === null) return result;
-    switch (role) {
-      case "finance-manager":
-        result = "/manager";
-        break;
-      case "admin":
-        result = "/admin";
-        break;
-      default:
-        result = "/employee";
-        break;
-    }
-    return result;
-  }
+  // pushSwitch = (role: string | null): string => {
+  //   let result: string = "/home";
+  //   if (role === null) return result;
+  //   switch (role) {
+  //     case "finance-manager":
+  //       result = "/manager";
+  //       break;
+  //     case "admin":
+  //       result = "/admin";
+  //       break;
+  //     default:
+  //       result = "/employee";
+  //       break;
+  //   }
+  //   return result;
+  // }
 
-  componentDidMount() {
-    // this.attemptLogin("longknee", "lassword");
-    // this.attemptLogin("bonnie", "bassword");
-    this.attemptLogin("change", "test");
-  }
+  // componentDidMount() {
+  //   this.attemptLogin("longknee", "lassword");
+  //   // this.attemptLogin("bonnie", "bassword");
+  //   // this.attemptLogin("change", "test");
+  // }
 
   //! Temporary ===================================================
   
@@ -107,13 +107,13 @@ export class App extends React.Component<any, any> {
                 />}
               />
               {/* Employee  */}
-              <Route path="submit-reimbursement" render={(props) => 
+              <Route path="/submit-reimbursement" render={(props) => 
                 <SubmitReimbursement 
                   currentUser={this.state.loggedInUser}
                   {...props}
                 />}
               />
-              <Route path="view-reimbursement" render={(props) => 
+              <Route path="/view-reimbursement" render={(props) => 
                 <ViewReimbursement 
                   currentUser={this.state.loggedInUser}
                   {...props}

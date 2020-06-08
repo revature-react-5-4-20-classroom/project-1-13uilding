@@ -6,6 +6,7 @@ import { User } from '../models/User';
 
 interface ISubmitReimbursementProps {
   currentUser: User;
+  onSubmit?: (e: any) => void;
 }
 
 interface ISubmitReimbursementState {
@@ -22,7 +23,7 @@ export class SubmitReimbursement extends React.Component <ISubmitReimbursementPr
   render() {
     return (
       <div className="myPage" id="submitReimbursementPage">
-        <ReimbursementFormComponent currentUser={this.props.currentUser}></ReimbursementFormComponent>
+        <ReimbursementFormComponent currentUser={this.props.currentUser} onSubmit={this.props.onSubmit}></ReimbursementFormComponent>
       </div>
       // Add alert here and pass down submit reimbursement?
     )

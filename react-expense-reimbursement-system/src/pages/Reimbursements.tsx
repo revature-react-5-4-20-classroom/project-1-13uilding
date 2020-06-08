@@ -1,7 +1,7 @@
 import React from 'react';
 import { User } from '../models/User';
 import { Reimbursement } from '../models/Reimbursement';
-import { Row, Col, Button, ButtonGroup } from 'reactstrap';
+import { Row, Col, Button, ButtonGroup, FormGroup, Label, Input, Form } from 'reactstrap';
 import { ReimbursementCardComponent } from '../components/ReimbursementCardComponent';
 import { getReimbursements, patchReimbursement, getFinanceManagers } from '../api/ExpenseReimbursementClient';
 import moment from 'moment';
@@ -12,12 +12,14 @@ interface IReimbursementsProps {
   currentUser: User | null;
 }
 interface IReimbursementsState {
+  [k: string]: any;
   clickedButtonsArr: number[];
   pendingReimbursements: Array<Reimbursement>;
   approvedReimbursements: Array<Reimbursement>;
   deniedReimbursements: Array<Reimbursement>;
   displayReimbursements: Array<Reimbursement>;
   resolvers: Array<string>;
+  authorid: number | string;
   errorMessage: string;
   isError: boolean;
 }
@@ -33,6 +35,7 @@ export class Reimbursements extends React.Component <IReimbursementsProps, IReim
       deniedReimbursements: [],
       displayReimbursements: [],
       resolvers: [],
+      authorid: '',
       errorMessage: '',
       isError: false,
     }
@@ -129,6 +132,11 @@ export class Reimbursements extends React.Component <IReimbursementsProps, IReim
     if (this.state.clickedButtonsArr.includes(1)) result = [...result, ...this.state.pendingReimbursements];
     if (this.state.clickedButtonsArr.includes(2)) result = [...result, ...this.state.approvedReimbursements];
     if (this.state.clickedButtonsArr.includes(3)) result = [...result, ...this.state.deniedReimbursements];
+    if (this.state.authorid !== null) {
+      if (this.state.authorid > 0) {
+        result = result.filter((reimbursement: Reimbursement) => reimbursement.author == this.state.authorid);
+      }
+    }
     return result;
   }
   
@@ -154,7 +162,16 @@ export class Reimbursements extends React.Component <IReimbursementsProps, IReim
         isError: true 
       })
     }
+  }
+  
+  attemptUpdate = (e:any) => {
+    e.preventDefault();
+    this.setState({displayReimbursements: this.createDisplayArray()});
+  }
 
+  filterReimbursementsByUser = (e: any) => {
+    let { name, value } = e.currentTarget;
+    this.setState({[name]: value});
   }
   
   render() {
@@ -164,13 +181,23 @@ export class Reimbursements extends React.Component <IReimbursementsProps, IReim
         <>
           <h1>{`Displaying:`}</h1>
           <h3>{this.determineHeader()}</h3>
-
-
-          <ButtonGroup>
-            <Button color="primary" onClick={() => this.onCheckboxBtnClick(1)} active={this.state.clickedButtonsArr.includes(1)}>Pending</Button>
-            <Button color="primary" onClick={() => this.onCheckboxBtnClick(2)} active={this.state.clickedButtonsArr.includes(2)}>Approved</Button>
-            <Button color="primary" onClick={() => this.onCheckboxBtnClick(3)} active={this.state.clickedButtonsArr.includes(4)}>Denied</Button>
-          </ButtonGroup>     
+          <Row>
+            <Col>
+              <Form onSubmit={this.attemptUpdate}>
+                <FormGroup>
+                  <Label for="authorid">Author Id</Label>
+                  <Input onChange={this.filterReimbursementsByUser} value={this.state.authorid} type="number" name="authorid" id="authorid" placeholder="leave 0 or less to view all reimbursements" />
+                </FormGroup>
+              </Form>
+            </Col>
+            <Col>
+              <ButtonGroup>
+                <Button color="primary" size='lg' onClick={() => this.onCheckboxBtnClick(1)} active={this.state.clickedButtonsArr.includes(1)}>Pending</Button>
+                <Button color="primary" size='lg' onClick={() => this.onCheckboxBtnClick(2)} active={this.state.clickedButtonsArr.includes(2)}>Approved</Button>
+                <Button color="primary" size='lg' onClick={() => this.onCheckboxBtnClick(3)} active={this.state.clickedButtonsArr.includes(4)}>Denied</Button>
+              </ButtonGroup>     
+            </Col>            
+          </Row>
 
 
 

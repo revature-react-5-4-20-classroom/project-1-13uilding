@@ -9,6 +9,7 @@ import { UserInfoComponent } from '../components/UserInfoComponent';
 import { pathToUpperCamel } from '../utilities';
 import { SubmitReimbursement } from './SubmitReimbursement';
 import { ViewReimbursement } from './ViewReimbursement';
+import { ReimbursementFormComponent } from '../components/ReimbursementFormComponent';
 // This is the employee homepage which is accessible to everyone who is logged in
 // I believe I want to store this page in a burger for the admin and financial manager role
 
@@ -19,18 +20,21 @@ interface IEmployeeProps {
   page: string;
 }
 interface IEmployeeState {
-  test: string;
+  reload: boolean;
 }
 
 export class Employee extends React.Component <IEmployeeProps, IEmployeeState> {
   constructor(props: IEmployeeProps) {
     super(props);
     this.state = {
-      test: '',
+      reload: false,
     }
   }
 
-
+  onSubmit = (e: any) => {
+    e.preventDefault();
+    this.setState({reload: !this.state.reload});
+  }
 
   render() {
     return (
@@ -62,6 +66,7 @@ export class Employee extends React.Component <IEmployeeProps, IEmployeeState> {
                     <hr/>
                     <h3>Submit A Personal Reimbursement</h3>
                     <SubmitReimbursement 
+                      onSubmit={this.onSubmit}
                       currentUser={this.props.currentUser}
                     />
                   </Col>
@@ -72,6 +77,7 @@ export class Employee extends React.Component <IEmployeeProps, IEmployeeState> {
                     <h3>View Personal Reimbursements</h3>
                     <ViewReimbursement 
                       currentUser={this.props.currentUser}
+                      reload={this.state.reload}
                     />
                   </Col>
                 </Row>

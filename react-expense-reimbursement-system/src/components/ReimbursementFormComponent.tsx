@@ -8,6 +8,7 @@ import { SubmitReimbursement } from '../pages/SubmitReimbursement';
 
 interface IReimbursementFormProps {
   currentUser: User;
+  onSubmit?: (e: any) => void;
 }
 
 interface IReimbursementFormState {
@@ -59,6 +60,9 @@ export class ReimbursementFormComponent extends React.Component <IReimbursementF
       console.log(reimbursement);
       const submittedReimbursement: Reimbursement = await submitReimbursement(reimbursement);
       console.log(submittedReimbursement);
+      if (this.props.onSubmit) {
+        this.props.onSubmit(e);
+      }
       //TODO Make a message it was submitted
       // this.props.addedReimbursement()
       // Clear fields
