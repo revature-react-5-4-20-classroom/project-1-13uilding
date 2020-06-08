@@ -3,7 +3,8 @@ import { User } from '../models/User';
 import { Reimbursement } from '../models/Reimbursement';
 import { Row, Col, Button, ButtonGroup } from 'reactstrap';
 import { ReimbursementCardComponent } from '../components/ReimbursementCardComponent';
-import { getReimbursements } from '../api/ExpenseReimbursementClient';
+import { getReimbursements, patchReimbursement, getFinanceManagers } from '../api/ExpenseReimbursementClient';
+import moment from 'moment';
 // This is the admin homepage only accessable to admin
 
 interface IReimbursementsProps {
@@ -16,6 +17,7 @@ interface IReimbursementsState {
   approvedReimbursements: Array<Reimbursement>;
   deniedReimbursements: Array<Reimbursement>;
   displayReimbursements: Array<Reimbursement>;
+  resolvers: Array<string>;
   errorMessage: string;
   isError: boolean;
 }
@@ -30,6 +32,7 @@ export class Reimbursements extends React.Component <IReimbursementsProps, IReim
       approvedReimbursements: [],
       deniedReimbursements: [],
       displayReimbursements: [],
+      resolvers: [],
       errorMessage: '',
       isError: false,
     }
@@ -44,7 +47,8 @@ export class Reimbursements extends React.Component <IReimbursementsProps, IReim
       const pendingReimbursements: Array<Reimbursement> = await getReimbursements(0, 1);
       const approvedReimbursements: Array<Reimbursement> = await getReimbursements(0, 2);
       const deniedReimbursements: Array<Reimbursement> = await getReimbursements(0, 3);
-      this.setState({ pendingReimbursements, approvedReimbursements, deniedReimbursements })
+      const resolvers = await getFinanceManagers();
+      this.setState({ pendingReimbursements, approvedReimbursements, deniedReimbursements, resolvers })
     } catch (error) {
       this.setState({
         errorMessage: error.message, 
@@ -52,6 +56,40 @@ export class Reimbursements extends React.Component <IReimbursementsProps, IReim
       })
     }
   }
+  //! Revamp later 
+  // componentDidUpdate() {
+  //   this.state.clickedButtonsArr.forEach( status => {
+  //     this.isStateDifferent(status);
+  //   })
+  // }
+
+  // async isStateDifferent(status: number) {
+  //   if (this.state.clickedButtonsArr.includes(status)) {
+  //     const dbReimbursements = await getReimbursements(0, status);
+  //     console.log("here is the dbReimbursement")
+  //     console.log(dbReimbursements)
+  //     console.log("here is pending")
+  //     console.log(this.state.pendingReimbursements)
+  //     let prevReimbursements: Reimbursement[];
+  //     switch (status) {
+  //       case 1:
+  //         prevReimbursements = this.state.pendingReimbursements;
+  //         break;
+  //       case 2:
+  //         prevReimbursements = this.state.approvedReimbursements;
+  //         break;
+  //       default:
+  //       case 3:
+  //         prevReimbursements = this.state.deniedReimbursements;
+  //         break;
+  //     }
+  //     if (prevReimbursements !== dbReimbursements) {
+  //       console.log('Should render')
+  //       // this.setState({ pendingReimbursements });
+  //     };
+  //   }
+  // }
+  //!
 
   onCheckboxBtnClick(selected: number) {
     const clickedButtonsArr = this.state.clickedButtonsArr;
@@ -77,7 +115,7 @@ export class Reimbursements extends React.Component <IReimbursementsProps, IReim
       }
       result += ' Approved';
     }
-    if (this.state.clickedButtonsArr.includes(4)) {
+    if (this.state.clickedButtonsArr.includes(3)) {
       if (result) {
         result += ' &';
       }
@@ -90,41 +128,71 @@ export class Reimbursements extends React.Component <IReimbursementsProps, IReim
     let result: Reimbursement[] = [];
     if (this.state.clickedButtonsArr.includes(1)) result = [...result, ...this.state.pendingReimbursements];
     if (this.state.clickedButtonsArr.includes(2)) result = [...result, ...this.state.approvedReimbursements];
-    if (this.state.clickedButtonsArr.includes(4)) result = [...result, ...this.state.deniedReimbursements];
-    console.log(result);
+    if (this.state.clickedButtonsArr.includes(3)) result = [...result, ...this.state.deniedReimbursements];
     return result;
   }
+  
+  attemptPatch = async (e: any) => {
+    e.preventDefault();
+    let status = e.currentTarget.value;
+    let resolver = (this.props.currentUser !== null ? this.props.currentUser.userid : -1);
+    let reimbursementid = e.currentTarget.name;
+    let today: any = moment();
+    let dateresolved = today.format('MMMM D HH:mm:ss YYYY ');
+    dateresolved += /[A-Z]{3}/.exec(today);
+    try {
+      const patchedReimbursement: any = await patchReimbursement({status, resolver, reimbursementid, dateresolved}); 
+      console.log(patchReimbursement);
+      const pendingReimbursements: Array<Reimbursement> = await getReimbursements(0, 1);
+      const approvedReimbursements: Array<Reimbursement> = await getReimbursements(0, 2);
+      const deniedReimbursements: Array<Reimbursement> = await getReimbursements(0, 3);
+      this.setState({ pendingReimbursements, approvedReimbursements, deniedReimbursements});
+      this.setState({ displayReimbursements: this.createDisplayArray() });
+    } catch (error) {
+      this.setState({ 
+        errorMessage: error.message, 
+        isError: true 
+      })
+    }
 
+  }
   
   render() {
     return (
       <div className="myPage" id="viewReimbursementPage">
-
-        <h1>{`Displaying:`}</h1>
-        <h3>{this.determineHeader()}</h3>
-
-
-        <ButtonGroup>
-          <Button color="primary" onClick={() => this.onCheckboxBtnClick(1)} active={this.state.clickedButtonsArr.includes(1)}>Pending</Button>
-          <Button color="primary" onClick={() => this.onCheckboxBtnClick(2)} active={this.state.clickedButtonsArr.includes(2)}>Approved</Button>
-          <Button color="primary" onClick={() => this.onCheckboxBtnClick(4)} active={this.state.clickedButtonsArr.includes(4)}>Denied</Button>
-        </ButtonGroup>     
+        {this.props.currentUser === null ? '' :
+        <>
+          <h1>{`Displaying:`}</h1>
+          <h3>{this.determineHeader()}</h3>
 
 
+          <ButtonGroup>
+            <Button color="primary" onClick={() => this.onCheckboxBtnClick(1)} active={this.state.clickedButtonsArr.includes(1)}>Pending</Button>
+            <Button color="primary" onClick={() => this.onCheckboxBtnClick(2)} active={this.state.clickedButtonsArr.includes(2)}>Approved</Button>
+            <Button color="primary" onClick={() => this.onCheckboxBtnClick(3)} active={this.state.clickedButtonsArr.includes(4)}>Denied</Button>
+          </ButtonGroup>     
 
-        {/* {this.state.reimbursements.filter(reimbursement => reimbursement.status === 1)} */}
-        <Row>
-          {this.state.displayReimbursements
-            .sort((user1, user2) => {
-              if (user1.userid > user2.userid) return 1;
-              if (user1.userid < user2.userid) return -1;
-              return 0;
-            }).map((reimbursement: Reimbursement) => {
-            return (<Col key={reimbursement.reimbursementid} md={6} className="reimbursementCardColumn">
-              <ReimbursementCardComponent reimbursement={reimbursement}></ReimbursementCardComponent>
-            </Col>)
-          })}
-        </Row>
+
+
+          {/* {this.state.reimbursements.filter(reimbursement => reimbursement.status === 1)} */}
+          <Row>
+            {this.state.displayReimbursements
+              .sort((user1, user2) => {
+                if (user1.userid > user2.userid) return 1;
+                if (user1.userid < user2.userid) return -1;
+                return 0;
+              }).map((reimbursement: Reimbursement) => {
+              return (<Col key={reimbursement.reimbursementid} md={6} className="reimbursementCardColumn">
+                <ReimbursementCardComponent 
+                  role={'finance-manager'} 
+                  reimbursement={reimbursement}
+                  resolverName={reimbursement.resolver === null ? "unknown" : this.state.resolvers[reimbursement.resolver]}
+                  onClick={this.attemptPatch}
+                ></ReimbursementCardComponent>
+              </Col>)
+            })}
+          </Row>
+        </>}
       </div>
     )
   }

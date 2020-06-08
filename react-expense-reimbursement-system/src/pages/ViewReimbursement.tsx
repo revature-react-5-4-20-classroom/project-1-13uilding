@@ -3,7 +3,7 @@ import { ReimbursementCardComponent } from '../components/ReimbursementCardCompo
 import { Reimbursement } from '../models/Reimbursement';
 import { User } from '../models/User';
 import { Button, Row, Col } from 'reactstrap';
-import { getReimbursements } from '../api/ExpenseReimbursementClient';
+import { getReimbursements, getFinanceManagers } from '../api/ExpenseReimbursementClient';
 // This is the admin homepage only accessable to admin
 
 interface IViewReimbursementProps {
@@ -15,6 +15,7 @@ interface IViewReimbursementState {
   reimbursements: Array<Reimbursement>;
   errorMessage: string;
   isError: boolean;
+  resolvers: Array<string>
 }
 
 export class ViewReimbursement extends React.Component <IViewReimbursementProps, IViewReimbursementState> {
@@ -22,6 +23,7 @@ export class ViewReimbursement extends React.Component <IViewReimbursementProps,
     super(props);
     this.state = {
       pending: true,
+      resolvers: [],
       reimbursements: [],
       errorMessage: '',
       isError: false,
@@ -35,7 +37,8 @@ export class ViewReimbursement extends React.Component <IViewReimbursementProps,
     }
     try {
       const reimbursements: Array<Reimbursement> = await getReimbursements(this.props.currentUser.userid);
-      this.setState({reimbursements})
+      const resolvers = await getFinanceManagers();
+      this.setState({reimbursements, resolvers})
     } catch (error) {
       this.setState({
         errorMessage: error.message, 
@@ -74,7 +77,11 @@ export class ViewReimbursement extends React.Component <IViewReimbursementProps,
               return 0;
             }).map((reimbursement: Reimbursement) => {
             return (<Col key={reimbursement.reimbursementid} md={6} className="reimbursementCardColumn">
-              <ReimbursementCardComponent reimbursement={reimbursement}></ReimbursementCardComponent>
+              <ReimbursementCardComponent 
+                role={'cannot'} 
+                reimbursement={reimbursement}
+                resolverName={reimbursement.resolver === null ? "unknown" : this.state.resolvers[reimbursement.resolver]}
+              ></ReimbursementCardComponent>
             </Col>)
           })}
         </Row>
